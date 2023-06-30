@@ -12,40 +12,38 @@ export const graphQLRequest = async (payload, options) => {
             body: JSON.stringify(payload)
         });
 
-        if(!res.ok) {
-            if(res.status === 403) {
+
+        if (!res.ok) {
+            if (res.status === 403) {
                 return null;
             }
         }
 
-        const { data } = await res.json();
+
+        const {data} = await res.json();
         return data;
     }
 
     return null;
 };
 
-export const graphQLRequestCustom = async (payload, options) => {
-    if (localStorage.getItem('accessToken')) {
-        const res = await fetch(`${URL}/graphql`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                ...options
-            },
-            body: payload
-        });
+export const graphQLRequestForNonAuth = async (payload, options) => {
+    const res = await fetch(`${URL}/graphql`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...options
+        },
+        body: JSON.stringify(payload)
+    });
 
-        if(!res.ok) {
-            if(res.status === 403) {
-                return null;
-            }
+    if (!res.ok) {
+        if (res.status === 403) {
+            return null;
         }
-
-        const { data } = await res.json();
-        return data;
     }
 
-    return null;
+    const {data} = await res.json();
+    return data;
 };

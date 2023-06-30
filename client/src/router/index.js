@@ -8,6 +8,7 @@ import NoteList from "../components/NoteList";
 import Note from "../components/Note";
 import {addNewNote, noteLoader, notesLoader, updateNote} from "../utils/noteUtils";
 import { foldersLoader } from "../utils/folderUtils";
+import SignUp from "../pages/SignUp";
 
 const AuthLayout = () => {
     return (
@@ -52,7 +53,11 @@ export default createBrowserRouter([
                     }
                 ]
             },
-
         ]
+    },
+    {
+        element: <SignUp />,
+        errorElement: <ErrorPage />,
+        path: '/signup'
     }
 ])

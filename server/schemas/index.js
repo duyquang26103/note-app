@@ -17,7 +17,9 @@ export const typeDefs = `#grapql
     
     type Author {
         uid: String!,
-        name: String!
+        name: String!,
+        username: String,
+        password: String
     }
     
     type Query {
@@ -33,6 +35,7 @@ export const typeDefs = `#grapql
     }
     
     type Mutation {
+        addAuthor(name: String!, username: String, password: String): Author,
         addFolder(name: String!): Folder,
         addNote(content: String!, folderId: ID!): Note,
         updateNote(id: String!, content: String!): Note,

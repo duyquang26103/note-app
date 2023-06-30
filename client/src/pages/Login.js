@@ -1,8 +1,8 @@
 import React, {useContext} from "react";
-import { Button, Typography } from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import { getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { AuthContext } from "../context/AuthProvider";
-import { Navigate } from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import { graphQLRequest } from "../utils/request";
 
 export default function Login() {
@@ -37,6 +37,13 @@ export default function Login() {
             <Button variant='outlined' onClick={handleLoginWithGoogle}>
                 Login with Google
             </Button>
+            <Grid container justifyContent="flex-end">
+                <Grid item>
+                    <Link to='/signup' variant="body2">
+                        Don't have an account? Sign up
+                    </Link>
+                </Grid>
+            </Grid>
         </>
     )
 }

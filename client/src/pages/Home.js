@@ -11,7 +11,7 @@ export default function Home() {
 
     return (
         <div style={{backgroundImage: `url(${bgImage})`, borderRadius: '15px'}}>
-            <Typography variant='h3' sx={{mb: '20px', color: "#2882F8"}}>
+            <Typography variant='h3' sx={{mb: '20px', color: "#2882F8", textShadow: '10px 10px 10px hotpink'}}>
                 Note App
             </Typography>
             <Box sx={{display: 'flex', justifyContent: 'right', mb: '10px'}}>
