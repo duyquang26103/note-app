@@ -12,11 +12,9 @@ export default function NewFolder() {
     const navigate = useNavigate();
     const popupName = searchParams.get('popup');
     const handleOpenPopup = () => {
-        // setOpen(true);
         setSearchParams({ popup: 'add-folder' })
     }
     const handleClose = () => {
-        // setOpen(false);
         setNewFolderName('');
         navigate(-1);
     }

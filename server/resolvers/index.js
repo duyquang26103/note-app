@@ -1,4 +1,4 @@
-import {AuthorModel, FolderModel, NoteModel} from "../models/index.js";
+import {AuthorModel, FolderModel, ImageModel, NoteModel} from "../models/index.js";
 import { GraphQLScalarType } from 'graphql';
 
 export const resolvers =
@@ -29,6 +29,11 @@ export const resolvers =
                 const nodeId = args.noteId;
                 const note = await NoteModel.findById(nodeId);
                 return note;
+            },
+            images: async (parent, args, context) => {
+                return ImageModel.find({
+                    authorId: context.uid,
+                })
             }
         },
         Folder: {
@@ -74,5 +79,10 @@ export const resolvers =
                 const note = await NoteModel.findByIdAndUpdate(noteId, args);
                 return note;
             },
+            addImage: async (parent, args, context) => {
+                const newImg = new ImageModel({...args, authorId: context.uid});
+                await newImg.save()
+                return newImg;
+            }
         }
     }
