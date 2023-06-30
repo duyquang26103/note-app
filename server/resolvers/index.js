@@ -1,5 +1,6 @@
 import {AuthorModel, FolderModel, ImageModel, NoteModel} from "../models/index.js";
 import { GraphQLScalarType } from 'graphql';
+import { v4 as uuidv4 } from 'uuid';
 
 export const resolvers =
     {
@@ -54,6 +55,11 @@ export const resolvers =
             },
         },
         Mutation: {
+            addAuthor: async (parent, args) => {
+                const newAuthor = new AuthorModel({...args, uid: uuidv4()});
+                await newAuthor.save();
+                return newAuthor;
+            },
             addFolder: async (parent, args, context) => {
                 const newFolder = new FolderModel({...args, authorId: context.uid});
                 await newFolder.save();
