@@ -16,6 +16,10 @@ const authorSchema = new mongoose.Schema({
     password: {
         type: String,
         require: false
+    },
+    imageId : {
+        type: String,
+        require: false
     }
 }, { timestamps: true });
 

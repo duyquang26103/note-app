@@ -19,6 +19,7 @@
     "firebase-admin": "^11.9.0",
     "http": "^0.0.1-security",
     "mongoose": "^7.3.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "uuid": "^9.0.0"
   }
 }

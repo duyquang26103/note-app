@@ -5,12 +5,13 @@ import FolderList from "../components/FolderList";
 import {Outlet, useLoaderData} from "react-router-dom";
 import UploadImage from "../components/UploadImage";
 
-export default function Home() {
+export default function Home () {
     const { folders } = useLoaderData();
     const [bgImage, setBgImage] = useState('');
+    const bg = bgImage? {backgroundImage: `url(${bgImage.imageUrl})`, borderRadius: '15px'} : {backgroundColor: '#fffae7', borderRadius: '15px'}
 
     return (
-        <div style={{backgroundImage: `url(${bgImage})`, borderRadius: '15px'}}>
+        <div style={bg}>
             <Typography variant='h3' sx={{mb: '20px', color: "#2882F8", textShadow: '10px 10px 10px hotpink'}}>
                 Note App
             </Typography>

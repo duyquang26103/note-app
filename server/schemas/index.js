@@ -18,20 +18,22 @@ export const typeDefs = `#grapql
     type Author {
         uid: String!,
         name: String!,
-        username: String,
-        password: String
+        username: String!,
+        password: String!,
+        imageId: String,
     }
     
     type Query {
+        author: Author,
         folders: [Folder],
         folder(folderId: String!): Folder,
         note(noteId: String): Note, 
-        images(base64: String!): [Image],
+        bgImage: [BgImage],
     }
     
-    type Image {
+    type BgImage {
         author: Author,
-        base64: String!
+        imageUrl: String!
     }
     
     type Mutation {
@@ -39,7 +41,9 @@ export const typeDefs = `#grapql
         addFolder(name: String!): Folder,
         addNote(content: String!, folderId: ID!): Note,
         updateNote(id: String!, content: String!): Note,
+        deleteNote(id: String!): Note,
         register(uid: String!, name: String!): Author,
-        addImage(base64: String!): Image,
+        updateBgImage(imageUrl: String!): BgImage,
+        addBgImage(imageUrl: String!): BgImage,
     }
 `;
