@@ -1,6 +1,9 @@
-import {AuthorModel, FolderModel, ImageModel, NoteModel} from "../models/index.js";
-import { GraphQLScalarType } from 'graphql';
-import { v4 as uuidv4 } from 'uuid';
+import {AuthorModel, BgImageModel, FolderModel, NoteModel, NotificationModel} from "../models/index.js";
+import {GraphQLScalarType} from 'graphql';
+import {v4 as uuidv4} from 'uuid';
+import { PubSub } from 'graphql-subscriptions';
+
+const pubsub = new PubSub();
 
 export const resolvers =
     {
@@ -14,6 +17,18 @@ export const resolvers =
             }
         }),
         Query: {
+            author: async (parent, args, context) => {
+                console.log(context.uid)
+                const author = await AuthorModel.find({
+                    uid: context.uid
+                });
+                console.log(author);
+                return author;
+            },
+            bgImage: async () => {
+                const data = await BgImageModel.find({});
+                return data;
+            },
             folders: async (parent, args, context) => {
                 return FolderModel.find({
                     authorId: context.uid,
@@ -23,18 +38,11 @@ export const resolvers =
             },
             folder: async (parent, args) => {
                 const folderId = args.folderId;
-                const foundFolder = await FolderModel.findById(folderId);
-                return foundFolder;
+                return FolderModel.findById(folderId);
             },
             note: async (parent, args) => {
                 const nodeId = args.noteId;
-                const note = await NoteModel.findById(nodeId);
-                return note;
-            },
-            images: async (parent, args, context) => {
-                return ImageModel.find({
-                    authorId: context.uid,
-                })
+                return NoteModel.findById(nodeId);
             }
         },
         Folder: {
@@ -46,22 +54,30 @@ export const resolvers =
                 return author;
             },
             notes: async (parent) => {
-                const notes = await NoteModel.find({
+                return await NoteModel.find({
                     folderId: parent.id
                 }).sort({
                     updatedAt: 'desc'
                 });
-                return notes;
             },
         },
         Mutation: {
             addAuthor: async (parent, args) => {
-                const newAuthor = new AuthorModel({...args, uid: uuidv4()});
-                await newAuthor.save();
-                return newAuthor;
+                const foundUser = await AuthorModel.findOne({uid: args.uid});
+
+                if (!foundUser) {
+                    const newAuthor = new AuthorModel({...args, uid: uuidv4()});
+                    await newAuthor.save();
+                }
+                return foundUser;
             },
             addFolder: async (parent, args, context) => {
                 const newFolder = new FolderModel({...args, authorId: context.uid});
+                pubsub.publish('FOLDER_CREATED', {
+                    folderCreated: {
+                        message: 'A new foldert created'
+                    }
+                })
                 await newFolder.save();
                 return newFolder;
             },
@@ -82,13 +98,41 @@ export const resolvers =
             },
             updateNote: async (parent, args) => {
                 const noteId = args.id;
-                const note = await NoteModel.findByIdAndUpdate(noteId, args);
-                return note;
+                return NoteModel.findByIdAndUpdate(noteId, args);
             },
-            addImage: async (parent, args, context) => {
-                const newImg = new ImageModel({...args, authorId: context.uid});
-                await newImg.save()
-                return newImg;
+            deleteNote: async (parent, args) => {
+                const noteId = args.id;
+                return NoteModel.findByIdAndDelete(noteId);
+            },
+            updateBgImage: async (parent, args, context) => {
+                const authorId = context.uid;
+                const bgImage = await BgImageModel.findByIdAndUpdate(authorId, args);
+                await bgImage.save()
+                return bgImage;
+            },
+            addBgImage: async (parent, args, context) => {
+                const newBgImage = new BgImageModel({...args, authorId: context.uid});
+                await newBgImage.save();
+                return newBgImage;
+            },
+            pushNotification: async (parent, args) => {
+                const newNotification = new NotificationModel(args);
+                await newNotification.save();
+
+                pubsub.publish('PUSH_NOTIFICATION', {
+                    notification: {
+                        message: args.content
+                    }
+                })
+                return {message: 'SUCCESS'};
+            }
+        },
+        Subscription: {
+            folderCreated: {
+                subscribe: () => pubsub.asyncIterator(['FOLDER_CREATED', 'NOTE_CREATED'])
+            },
+            notification: {
+                subscribe: () => pubsub.asyncIterator(['PUSH_NOTIFICATION'])
             }
         }
     }
