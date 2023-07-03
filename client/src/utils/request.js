@@ -1,4 +1,6 @@
-const URL = process.env.GRAPHQL_SERVER || 'http://localhost:4000';
+import { GRAPHQL_SERVER } from "../const";
+
+const URL = process.env.GRAPHQL_SERVER || GRAPHQL_SERVER;
 export const graphQLRequest = async (payload, options) => {
     if (localStorage.getItem('accessToken')) {
         const res = await fetch(`${URL}/graphql`, {
