@@ -1,47 +1,46 @@
-import React from "react";
-import {Button} from "@mui/material";
+import React, {useEffect, useState} from "react";
+import { FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import { bgImageLoader } from "../utils/imageUtils";
+
 
 const UploadImage = (props) => {
     const { setBgImage } = props;
+    const [currentImg, setCurrentImg] = useState([]);
+    const [selectImg, setSelectImg] = useState('')
 
-    const handleUploadFile = async (e) => {
-        const file = e.target.files[0];
-        const base64 = await convertBase64(file);
-        setBgImage(base64);
-    }
-
-    const convertBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-
-            fileReader.onload = () => {
-                resolve(fileReader.result);
-            };
-
-            fileReader.onerror = (error) => {
-                reject(error);
-            };
-        });
+    const loader = async () => {
+        const res = await bgImageLoader();
+        setCurrentImg(res.bgImage);
     };
 
+    useEffect(() => {
+        loader();
+    },[])
+
+    const handleChange = async (e) => {
+        setSelectImg(e.target.value);
+        setBgImage(e.target.value);
+    }
+
     return (
-            <div>
-                <input
-                    accept="image/*"
-                    className='upload-img'
-                    style={{ display: 'none' }}
-                    id="raised-button-file"
-                    multiple
-                    type="file"
-                    onChange={handleUploadFile}
-                />
-                <label htmlFor="raised-button-file">
-                    <Button sx={{ backgroundColor: '#9a9de0de'}} variant="raised" component="span" className='upload-img'>
-                        Change your Background
-                    </Button>
-                </label>
-            </div>
+
+        <div style={{display: 'flex'}}>
+            <FormControl fullWidth style={{justifyItems: 'right', width: '40vh'}}>
+                <InputLabel id="demo-simple-select-label">BackGround</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectImg}
+                    label="Age"
+                    onChange={handleChange}
+                >
+                    {currentImg.map((url, index) => {
+                        return (<MenuItem key={index} value={url}>{index}</MenuItem>)
+                    })}
+                </Select>
+            </FormControl>
+        </div>
+
     );
 };
 

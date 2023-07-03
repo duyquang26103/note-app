@@ -12,7 +12,7 @@ import {
     ThemeProvider, Typography
 } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {Link, useNavigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {addNewAuthor} from "../utils/AuthorUtils";
 
 const bcrypt = require('bcryptjs');
@@ -24,6 +24,10 @@ export default function SignUp() {
     const [ confirmPassword, setConfirmPassword ] = useState("");
     const defaultTheme = createTheme();
     const navigate = useNavigate();
+
+    if (localStorage.getItem('accessToken')) {
+        return <Navigate to='/'/>;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();

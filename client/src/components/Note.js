@@ -24,7 +24,7 @@ export default function Note() {
                     action: pathname
                 });
             }
-        },1000)
+        },500)
     },[]);
 
     useEffect(() => {
