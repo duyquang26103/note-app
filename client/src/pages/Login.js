@@ -15,7 +15,7 @@ import { Navigate, useNavigate, Link } from "react-router-dom";
 import { graphQLRequest } from "../utils/request";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {authorLoader} from "../utils/AuthorUtils";
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
@@ -48,28 +48,26 @@ export default function Login() {
             }});
     }
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const username = data.get('username');
-        const password = data.get('password');
-
-        const hash = bcrypt.hashSync(password,"$2a$10$m4NDunPOgN.5EXbQQfSqKO")
-        const {author} = await authorLoader({
-            username
-        });
-
-        if (author && author.password === hash) {
-            delete author.password
-            // setCookie("accessToken",JSON.stringify(author));
-            localStorage.setItem('accessToken', JSON.stringify(author))
-            navigate('/folders');
-        } else {
-            console.log("login thất bại")
-        }
-
-
-    };
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     const data = new FormData(event.currentTarget);
+    //     const username = data.get('username');
+    //     const password = data.get('password');
+    //
+    //     const hash = bcrypt.hashSync(password,"$2a$10$m4NDunPOgN.5EXbQQfSqKO")
+    //     const {author} = await authorLoader({
+    //         username
+    //     });
+    //
+    //     if (author && author.password === hash) {
+    //         delete author.password
+    //         // setCookie("accessToken",JSON.stringify(author));
+    //         localStorage.setItem('accessToken', JSON.stringify(author))
+    //         navigate('/folders');
+    //     } else {
+    //         console.log("login thất bại")
+    //     }
+    // };
 
     if (localStorage.getItem('accessToken')) {
         return <Navigate to='/'/>;
