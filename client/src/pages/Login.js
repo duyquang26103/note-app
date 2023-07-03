@@ -14,7 +14,6 @@ import { AuthContext } from "../context/AuthProvider";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { graphQLRequest } from "../utils/request";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import {authorLoader} from "../utils/AuthorUtils";
 // const bcrypt = require('bcryptjs');
 
 function setCookie(cname, cvalue, exdays) {
@@ -111,7 +110,7 @@ export default function Login() {
                             <Typography component="h1" variant="h5">
                                 Sign in
                             </Typography>
-                            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                            <Box component="form" noValidate sx={{ mt: 1 }}>
                                 {/*<TextField*/}
                                 {/*    margin="normal"*/}
                                 {/*    required*/}
