@@ -6,7 +6,7 @@ import { bgImageLoader } from "../utils/imageUtils";
 const UploadImage = (props) => {
     const { setBgImage } = props;
     const [currentImg, setCurrentImg] = useState([]);
-    const [selectImg, setSelectImg] = useState('')
+    const [selectImg, setSelectImg] = useState('');
 
     const loader = async () => {
         const res = await bgImageLoader();
@@ -25,8 +25,8 @@ const UploadImage = (props) => {
     return (
 
         <div style={{display: 'flex'}}>
-            <FormControl fullWidth style={{justifyItems: 'right', width: '40vh'}}>
-                <InputLabel id="demo-simple-select-label">BackGround</InputLabel>
+            <FormControl fullWidth style={{justifyItems: 'right', width: '30vh'}}>
+                <InputLabel id="demo-simple-select-label" sx={{paddingX: '8px', backgroundColor: '#1976d2', borderRadius: '8px', color: 'white'}}>BackGround</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

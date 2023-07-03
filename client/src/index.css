@@ -7,3 +7,7 @@
 #root {
   width: 100%;
 }
+
+#export-csv {
+  text-decoration: none !important;
+}

@@ -6,11 +6,15 @@ export const foldersLoader = async () => {
                                     id
                                     name
                                     createAt
-                                  }
+                                    notes {
+                                          id
+                                          content
+                                          updatedAt
+                                        }
+                                    }
                                 }`;
 
-    const data = await graphQLRequest({query});
-    return data;
+    return await graphQLRequest({query});
 }
 
 export const addNewFolder = async (newFolder) => {
@@ -23,9 +27,8 @@ export const addNewFolder = async (newFolder) => {
           }
         }`;
 
-    const data = await graphQLRequest({
+    return await graphQLRequest({
         query,
         variables: {name: newFolder.name}
     });
-    return data;
 }

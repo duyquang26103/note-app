@@ -22,17 +22,11 @@ export const addNewAuthor = async (newAuthor) => {
 export const authorLoader = async () => {
     const query = `query Author {
           author {
-            uid
-            name
-            username
-            password
             imageId
           }
         }`;
 
-    const author = await graphQLRequest({
+    return await graphQLRequest({
         query,
-    });
-    console.log("author", author);
-    return author
+    })
 }

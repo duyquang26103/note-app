@@ -82,12 +82,14 @@ export default function NoteList() {
                     {
                         folderState.notes.map(({id, content, updatedAt}) => {
                             return (
-                                <div style={{
+                                <div
+                                    key={id}
+                                    style={{
                                     display: 'flex',
                                     justifyContent: 'space-between'
-                                }}>
+                                }}
+                                >
                                     <Link
-                                        key={id}
                                         to={`note/${id}`}
                                         style={{textDecoration: 'none', width: '100%'}}
                                         onClick={() => setActiveNoteId(id)}>

@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { getAuth, GoogleAuthProvider, signInWithPopup} from 'firebase/auth'
 import { AuthContext } from "../context/AuthProvider";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, Link } from "react-router-dom";
 import { graphQLRequest } from "../utils/request";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {authorLoader} from "../utils/AuthorUtils";
@@ -151,18 +151,18 @@ export default function Login() {
                                     Login with Google
                                 </Button>
 
-                                {/*<Grid container justifyContent="flex-end">*/}
-                                {/*    <Grid item xs>*/}
-                                {/*        <Link href="#" variant="body2">*/}
-                                {/*            Forgot password?*/}
-                                {/*        </Link>*/}
-                                {/*    </Grid>*/}
-                                {/*    <Grid item>*/}
-                                {/*        <Link to='/signup' variant="body2">*/}
-                                {/*            Don't have an account? Sign up*/}
-                                {/*        </Link>*/}
-                                {/*    </Grid>*/}
-                                {/*</Grid>*/}
+                                <Grid container justifyContent="flex-end">
+                                    <Grid item sx={{mr: '15px'}}>
+                                        <Link to="#" variant="body2">
+                                            Forgot password?
+                                        </Link>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link to='/signup' variant="body2">
+                                            Don't have an account? Sign up
+                                        </Link>
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </Box>
                     </Grid>

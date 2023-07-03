@@ -9,7 +9,6 @@ import Note from "../components/Note";
 import {addNewNote, noteLoader, notesLoader, updateNote} from "../utils/noteUtils";
 import { foldersLoader } from "../utils/folderUtils";
 import SignUp from "../pages/SignUp";
-import {authorLoader} from "../utils/AuthorUtils";
 
 const AuthLayout = () => {
     return (
@@ -30,7 +29,6 @@ export default createBrowserRouter([
             },
             {
                 element: <ProtectedRoute/>,
-                loader: authorLoader,
                 children: [
                     {
                         element: <Home />,
