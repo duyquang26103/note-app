@@ -15,7 +15,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Link, Navigate, useNavigate} from "react-router-dom";
 import {addNewAuthor} from "../utils/AuthorUtils";
 
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
 export default function SignUp() {
     const [ displayName, setDisplayName ] = useState("");
@@ -41,8 +41,8 @@ export default function SignUp() {
             return;
         }
 
-        const hash = bcrypt.hashSync(password,"$2a$10$m4NDunPOgN.5EXbQQfSqKO")
-        await addNewAuthor({ displayName: displayName, username , password: hash });
+        // const hash = bcrypt.hashSync(password,"$2a$10$m4NDunPOgN.5EXbQQfSqKO")
+        await addNewAuthor({ displayName: displayName, username , password: password });
         navigate('/login');
     }
 
