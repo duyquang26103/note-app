@@ -11,6 +11,9 @@ import { typeDefs } from './schemas/index.js'
 import { resolvers } from './resolvers/index.js'
 import './firebaseConfig.js';
 import {getAuth} from "firebase-admin/auth";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { useServer } from "graphql-ws/lib/use/ws";
+import { WebSocketServer } from "ws";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -19,10 +22,35 @@ const httpServer = http.createServer(app);
 const URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.cwvepdz.mongodb.net/?retryWrites=true&w=majority`
 const PORT = process.env.PORT || 4000;
 
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+// Creating the WebSocket server
+const wsServer = new WebSocketServer({
+    // This is the `httpServer` we created in a previous step.
+    server: httpServer,
+    // Pass a different path here if app.use
+    // serves expressMiddleware at a different path
+    path: '/',
+});
+
+// Hand in the schema we just created and have the
+// WebSocketServer start listening.
+const serverCleanup = useServer({ schema }, wsServer);
+
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({httpServer})]
+    schema,
+    plugins: [
+        ApolloServerPluginDrainHttpServer({httpServer}),
+        {
+            async serverWillStart() {
+                return {
+                    async drainServer() {
+                        await serverCleanup.dispose();
+                    },
+                };
+            },
+        },
+    ]
 })
 
 await server.start();
