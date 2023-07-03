@@ -45,5 +45,15 @@ export const typeDefs = `#grapql
         register(uid: String!, name: String!): Author,
         updateBgImage(imageUrl: String!): BgImage,
         addBgImage(imageUrl: String!): BgImage,
+        pushNotification(content: String): Message
+    }
+    
+    type Message {
+        message: String
+    }
+    
+    type Subscription {
+        folderCreated: Message,
+        notification: Message
     }
 `;

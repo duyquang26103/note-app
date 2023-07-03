@@ -6,6 +6,7 @@ import { styled, alpha } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
 import UserMenu from "../components/UserMenu";
 import FolderList from "../components/FolderList";
+import PushNotification from "../components/PushNotification";
 import { Outlet, useLoaderData } from "react-router-dom";
 import UploadImage from "../components/UploadImage";
 import { CSVLink } from "react-csv";
@@ -87,6 +88,7 @@ export default function Home () {
             </Typography>
             <Box sx={{display: 'flex', justifyContent: 'right', mb: '10px'}}>
                 <UserMenu />
+                <PushNotification />
             </Box>
             <Box sx={{display: 'flex', justifyContent: 'right', mb: '10px'}}>
                 <UploadImage setBgImage={setBgImage}/>

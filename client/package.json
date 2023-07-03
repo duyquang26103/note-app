@@ -24,6 +24,7 @@
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "firebase": "^9.23.0",
+    "graphql-ws": "^5.14.0",
     "local-cors-proxy": "^1.1.0",
     "md5": "^2.3.0",
     "react": "^18.2.0",
